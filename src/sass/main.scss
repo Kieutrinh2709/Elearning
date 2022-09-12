@@ -1,0 +1,29 @@
+
+
+// import Helper
+@import './Helper/mixin';
+@import './Helper/variables';
+
+// import Base
+@import './Base/reset';
+
+
+
+// import Layouts
+// home
+@import './Layouts/header';
+@import './Layouts/carousel';
+@import './Layouts//listCourse';
+@import './Layouts/introduce';
+@import './Layouts/footer';
+@import './Layouts/article';
+// admin
+@import './Layouts/Admin/adminHeader';
+
+// import Pages
+@import './Pages/login';
+@import './Pages/register';
+@import './Pages/detailCourse';
+@import './Pages/userProfile';
+//Components
+@import './Components/tabComponent';   

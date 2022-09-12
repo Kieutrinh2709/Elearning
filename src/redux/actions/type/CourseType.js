@@ -1,0 +1,2 @@
+export const COURSE_ADD_TO_CART = 'COURSE_ADD_TO_CART';
+export const GET_KEYWORD ='GET_KEYWORD';

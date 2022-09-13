@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { Modal, Row, Col, Form, Input, Button, Select } from 'antd';
-import logo from '../../../../asset/images/logo.png';
 import { useDispatch } from 'react-redux';
 import { insertUserAction, updateUserAction } from '../../../../redux/actions/UserAction';
+
 const { Option } = Select;
 export default function FormUser(props) {
     const dispatch = useDispatch();
@@ -47,7 +47,6 @@ export default function FormUser(props) {
     return (
         <div>
             <Modal title={<div className="modalTitle">
-                <img className="modalImg" src={logo} />
                 <span className="modalInform">{props.type == 'update' ? 'CẬP NHẬT NGƯỜI DÙNG' : 'THÊM NGƯỜI DÙNG'}</span>
             </div>} visible={props.show}
                 footer={null} onCancel={props.close}
@@ -118,8 +117,8 @@ export default function FormUser(props) {
                                 labelCol={{ span: 8 }}
                             >
                                 <Select  onChange={handleChange}>
-                                    <Option value="KhachHang">Khách Hàng</Option>
-                                    <Option value="QuanTri">Quản Trị</Option>
+                                    <Option value="GV">Giảng viên</Option>
+                                    <Option value="HV">Học viên</Option>
                                 </Select>
                             </Form.Item>
                         </Col>

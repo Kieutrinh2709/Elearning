@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
-import { DatePicker, Space, Alert } from 'antd';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { registerAction } from '../../redux/actions/UserAction';
 import { USER_LOGIN } from '../../util/setting';
+import { Alert } from '@mui/material';
 
 
 export default function Register() {
@@ -43,8 +43,7 @@ export default function Register() {
     return (
         <div className="register">
             <div className="registerForm col-10 col-sm-10 col-md-8 col-lg-5">
-                <h2 className="text-center"><NavLink to="/"><img src="./images/logo.png" /></NavLink></h2>
-                <h2 className="text-center">Register</h2>
+                <h2 className="text-center"><NavLink to="/">Register</NavLink></h2>
                 <form onSubmit={formik.handleSubmit}>
                     <div className="form-group row">
                         <div className="col-12 col-sm-6">

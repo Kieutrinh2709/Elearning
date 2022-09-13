@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCourseDetailAction } from "../../redux/actions/CourseAction";
 import CourseContent from "./CourseContent";
 import CourseModal from "./CourseModal";
-
 export default function CourseDetail(props) {
 
-  const courseDetailData = useSelector(
-    (state) => state.CourseReducer.courseDetailData
+  const courseDetail= useSelector(
+    (state) => state.CourseReducer.CourseDetail
   );
 
   const dispatch = useDispatch();
@@ -18,17 +17,16 @@ export default function CourseDetail(props) {
     window.scroll(0, 0);
   }, []);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   return (
-    console.log("detail component"),
     (
       <Fragment>
         <CourseContent
-          courseDetailData={courseDetailData}
-          setIsModalOpen={setIsModalOpen}
+          courseDetail={courseDetail}
+          setOpenModal={setOpenModal}
         />
-        <CourseModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <CourseModal openModal={openModal} setOpenModal={setOpenModal} />
       </Fragment>
     )
   );

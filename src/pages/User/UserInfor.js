@@ -1,9 +1,13 @@
-import { Button, Form } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import { Button } from "@mui/material";
 import { updateUserAction } from "../../redux/actions/UserAction";
 
-export default function UserInfo(props) {
+
+export default function UserInfor(props) {
+ 
   const { user } = props;
   const [userProfile, setUserProfile] = useState({
     taiKhoan: "",
@@ -42,11 +46,17 @@ export default function UserInfo(props) {
 
 
   return (
-    <Form
+    <Box
+      component="form"
+      sx={{
+        "& .MuiTextField-root": { m: 1, width: "55%" },
+      }}
+      noValidate
       autoComplete="off"
     >
       <div>
-        <Form.Item
+        <TextField
+          required
           label="Họ và tên"
           InputLabelProps={{
             shrink: true,
@@ -58,7 +68,7 @@ export default function UserInfo(props) {
         />
       </div>
       <div>
-        <Form.Item
+        <TextField
           required
           label="Số điện thoại"
           InputLabelProps={{
@@ -71,7 +81,7 @@ export default function UserInfo(props) {
         />
       </div>
       <div>
-        <Form.Item
+        <TextField
           required
           label="Email"
           InputLabelProps={{
@@ -84,7 +94,7 @@ export default function UserInfo(props) {
         />
       </div>
       <div>
-        <Form.Item
+        <TextField
           required
           label="Mật khẩu"
           type="password"
@@ -104,6 +114,6 @@ export default function UserInfo(props) {
       >
         Cập nhật
       </Button>
-    </Form>
+    </Box>
   );
 }

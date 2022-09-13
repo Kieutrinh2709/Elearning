@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import './TableUser.css';
-import FormUser from '../FormUser/FormUser';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
-import {  deleteUserAction } from '../../../../redux/actions/UserAction';
 import { Table, Row, Col, Button, Input } from 'antd';
 import {
     EditOutlined,
@@ -11,6 +8,8 @@ import {
     UserOutlined
 } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
+import { deleteUserAction } from '../../../../redux/actions/UserAction';
+import FormUser from '../FormUser/FormUser';
 export default function TableUser(props) {
 
     const [showForm, setShowForm] = useState(false);
@@ -24,9 +23,6 @@ export default function TableUser(props) {
             width: 100,
             dataIndex: 'taiKhoan',
             key: 'taiKhoan',
-            render:(text,record)=>(
-                <NavLink style={{color:'black'}} to={`/admin/i-detail/${record.taiKhoan}`}>{text}</NavLink>
-            )
         },
         {
             title: 'HỌ TÊN',
@@ -63,17 +59,17 @@ export default function TableUser(props) {
             key: 'operation',
             fixed: 'right',
             width: 100,
-            render: (text, record, index) => (
+            render: (text, user, index) => (
                 <>
-                    <Button className="btnAdminP" type="primary" icon={<EditOutlined />} onClick={() => {
+                    <Button className="btnAdminP" type="primary" onClick={() => {
                         setTypeAction('update');
-                        setUserUpdate(record);
+                        setUserUpdate(user);
                         setShowForm(true);
-                    }} >Sửa</Button>
+                    }} ><EditOutlined /></Button>
                     <Button className="btnAdminP" onClick={() => {
                         Swal.fire({
                             title: `Bạn có chắc muốn xóa người dùng!`,
-                            text: record.taiKhoan,
+                            text: user.taiKhoan,
                             icon: 'question',
                             showCancelButton: true,
                             confirmButtonColor: '#fb4226',
@@ -81,11 +77,10 @@ export default function TableUser(props) {
                             confirmButtonText: 'OK'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                dispatch(deleteUserAction(record.taiKhoan));
+                                dispatch(deleteUserAction(user.taiKhoan));
                             }
                         })
-                    }} type="primary" danger icon={<DeleteOutlined />}>Xóa</Button>
-                    <NavLink  to={`/admin/i-detail/${record.taiKhoan}`}><Button className="btnGo" type="primary" icon={<UserOutlined  />}>Go</Button></NavLink>
+                    }} type="primary" danger ><DeleteOutlined /></Button>
                 </>
             ),
         },

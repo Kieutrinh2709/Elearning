@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import FormUser from './FormUser/FormUser'; 
 import { UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import TableUser from './TableUser/TableUser';
+
 import { Table, Row, Col, Button, Input } from 'antd';
-import {
-    EditOutlined,
-    DeleteOutlined,
-} from '@ant-design/icons';
 import { getListUserAction } from '../../../redux/actions/UserAction';
+import TableUser from './TableUser/TableUser';
 const { Search } = Input;
 export default function ListUser() {
     const { listUser } = useSelector(state => state.UserReducer);

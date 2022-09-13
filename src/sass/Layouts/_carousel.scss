@@ -1,5 +1,5 @@
 
-.movie__carousel{
+.course__carousel{
     position: relative;
     margin-top: 60px;
     .carousel__button{
@@ -18,12 +18,8 @@
         }
         
     }
-    .movie__carousel__item{
-        // height:100%;
+    .course__carousel__item{
         .carousel-item{
-            // height: 700px;
-            // background-repeat: no-repeat;
-            // background-size: cover;
             img{
                 height:100% !important;
                 display: block;

@@ -3,8 +3,9 @@ import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import Introduce from '../../components/Introduce/Introduce'
 import { useSelector } from 'react-redux'
-import ListCourses from '../../components/ListCourse/ListCourse'
-import Banner from '../../components/Carousel/Carousel'
+import Carousel from '../../components/Carousel/Carousel'
+import CourseList from '../../components/ListCourse/CourseList'
+import News from '../../components/News/News'
 
 export default function Home() {
     // const { isLoading } = useSelector(state => state.ListMovieReducer);
@@ -15,8 +16,9 @@ export default function Home() {
     return (
         <Fragment>
             <Header />
-            <Banner />
-            <ListCourses />
+            <Carousel />
+            <CourseList />
+            <News/>
             <Introduce />
             <Footer />
         </Fragment>

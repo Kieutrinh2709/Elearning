@@ -1,6 +1,5 @@
 import React from 'react';
 import Slider from "react-slick";
-import { Row, Col } from 'antd';
 
 export default function Introduce() {
     const settings = {
@@ -21,7 +20,7 @@ export default function Introduce() {
         return arrSlide
     }
     return (
-        <div id="introduce" className="intro__app" style={{ backgroundImage: "url('./images/icons/backapp.jpg')" }}>
+        <div id="introduce" className="intro__app" style={{ backgroundImage: "url('./images/icons/bg.jpg')" }}>
             <div className="container ">
                 <div className="row intro__content">
                     <div className="col-12 col-sm-12 col-md-6 intro__info">

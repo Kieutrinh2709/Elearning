@@ -31,6 +31,7 @@ const stateDefault = {
     userName: userLogin,
     userType:"",
     courseKey: "",
+    open:false,
 }
 
 export const UserReducer = (state=stateDefault, action) => {
@@ -69,6 +70,14 @@ export const UserReducer = (state=stateDefault, action) => {
         case 'RESET_LOADING_USER':{
             state.isLoading = true;
             return{...state};
+        }
+        case 'OPEN_MODAL':{
+            state.open = true;
+            return { ...state };
+        }
+        case 'CLOSE_MODAL':{
+            state.open = false;
+            return { ...state };
         }
         default:return {...state}
     }

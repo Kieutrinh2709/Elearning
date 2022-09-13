@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router';
-import { Alert } from 'antd';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { NavLink } from 'react-router-dom';
@@ -8,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { loginAction } from '../../redux/actions/UserAction';
 import { TYPE_USER, USER_LOGIN } from '../../util/setting';
 import { Fragment } from 'react';
+import { Alert } from '@mui/material';
 
 
 
@@ -42,8 +42,7 @@ export default function Login() {
         {/* <Header/> */}
         <div className="login" >
             <div className="loginForm col-10 col-sm-10 col-md-6 col-lg-4" >
-                <h2 className="text-center"><NavLink to="/"><img  src="./images/logo.png"/></NavLink></h2>
-                <h2 className="text-center">Login</h2>
+                <h2 className="text-center"><NavLink to="/">Login</NavLink></h2>
                 <form onSubmit={formik.handleSubmit}>
                     <div className="form-group row">
                         <div className="col-sm-12">

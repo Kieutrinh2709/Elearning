@@ -22,9 +22,8 @@ export default function Header() {
                     <div className="header__nav">
                         <ul>
                             <li><a href="#home">Trang chủ</a> </li>
-                            <li><a href="#listCourse">Khóa học</a></li>
-                            <li><a href="#introduce">Tin tức</a></li>
-                            {/* <li><a href="#introduce"></a></li> */}
+                            <li><a href="#courseList">Khóa học</a></li>
+                            <li><a href="#news">Tin tức</a></li>
                         </ul>
                     </div>
                     <div className="header__detail">

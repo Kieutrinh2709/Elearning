@@ -10,20 +10,16 @@
 
 
 // import Layouts
-// home
 @import './Layouts/header';
 @import './Layouts/carousel';
-@import './Layouts//listCourse';
 @import './Layouts/introduce';
 @import './Layouts/footer';
-@import './Layouts/article';
+@import './Layouts/news';
 // admin
 @import './Layouts/Admin/adminHeader';
 
 // import Pages
 @import './Pages/login';
 @import './Pages/register';
-@import './Pages/detailCourse';
-@import './Pages/userProfile';
 //Components
 @import './Components/tabComponent';   

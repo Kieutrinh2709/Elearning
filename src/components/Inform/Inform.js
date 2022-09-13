@@ -1,7 +1,6 @@
+import { Alert, Modal } from '@mui/material';
 import React, { useState } from 'react'
 import logo from './../../asset/images/logo.png';
-
-import { Modal, Button, Alert } from 'antd';
 
 export default function Infom(props) {
     const [isModalVisible, setIsModalVisible] = useState(true);

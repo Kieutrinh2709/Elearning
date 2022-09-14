@@ -34,7 +34,7 @@ export default function Header() {
                                 </div>
                                 <div className="dropdown-menu user" aria-labelledby="dropdownMenuButton">
                                     {localStorage.getItem(TYPE_USER) == "\"GV\"" ? <NavLink className="dropdown-item" to="/admin">Dashboard</NavLink> : ''}
-                                    <a href="/user-profiles/0" className="dropdown-item" to="" >Thông tin tài khoản</a>
+                                    <a href="/user-profiles/:id" className="dropdown-item" to="" >Thông tin tài khoản</a>
                                     <a className="dropdown-item" onClick={() => {
                                         localStorage.removeItem(USER_LOGIN);
                                         localStorage.removeItem(TYPE_USER);

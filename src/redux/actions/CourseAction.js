@@ -1,6 +1,3 @@
-import axios from 'axios';
-import { GROUP_ID, TOKEN } from '../../util/setting';
-
 import Swal from 'sweetalert2';
 import { getDetailUserAction } from './UserAction';
 import { COURSE_ADD_TO_CART, GET_DETAIL_COURSE, GET_KEYWORD, GET_LIST_CATEGORY, GET_LIST_COURSE, GET_LIST_COURSE_BY_CATEGORY, INTO_PAGINATION } from './type/CourseType';
@@ -85,10 +82,10 @@ export const addCourseToCart = (khoaHoc) => {
         });
 };
 
-export const updateCourseAction = (courseUpdate) => {
+export const updateCourseAction = (formData) => {
     return async (dispatch) => {
         try {
-            let result = await courseService.updateCourse(courseUpdate);
+            let result = await courseService.updateCourse(formData);
             if (result.status === 200) {
                 Swal.fire({
                     title: 'Cập nhật thành công!',
@@ -116,7 +113,7 @@ export const addCourseUploadImgAction = (formData) => {
             let result = await courseService.addCourseUploadImg(formData);
             if (result.status === 200) {
                 Swal.fire({
-                    title: 'Thêm hình ảnh thành công!',
+                    title: 'Thêm khóa học thành công!',
                     icon: 'success',
                     confirmButtonColor: '#44c020'
                 }).then((result)=>{
@@ -134,10 +131,10 @@ export const addCourseUploadImgAction = (formData) => {
 
 };
 
-export const addCourseAction = (courseAdd) => {
+export const addCourseAction = (formData) => {
     return async (dispatch) => {
         try {
-            let result = await courseService.addCourse(courseAdd);
+            let result = await courseService.addCourse(formData);
             if (result.status === 200) {
                 Swal.fire({
                     title: 'Thêm thành công!',

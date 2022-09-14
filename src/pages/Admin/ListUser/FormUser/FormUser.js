@@ -124,7 +124,7 @@ export default function FormUser(props) {
                         </Col>
                     </Row>
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <Button type="primary" danger htmlType="submit">
+                        <Button type="primary" danger htmlType="submit" className="mr-5">
                             Submit
                         </Button>
                         <Button onClick={props.close}>

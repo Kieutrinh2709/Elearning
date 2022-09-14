@@ -16,7 +16,7 @@ export default function UserCourse(props) {
   const { user } = props;
   const dispatch = useDispatch();
 
-  let keyword = useSelector((state) => state.userProfileReducer.keyword);
+  let keyword = useSelector((state) => state.UserReducer.keyword);
   const courseList = user?.chiTietKhoaHocGhiDanh.filter(
     (course) =>
       course.tenKhoaHoc.toLowerCase().indexOf(keyword.toLowerCase()) !== -1

@@ -84,8 +84,8 @@ function UserProfile(props) {
     <Redirect to="/" />
   ) : (
     <>
-      <div className={classes.content}>
-        <div className={classes.title}>
+      <div className="content">
+        <div className="title">
           <h2>{user && user.hoTen}</h2>
         </div>
       <Box

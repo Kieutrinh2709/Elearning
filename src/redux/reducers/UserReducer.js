@@ -28,6 +28,7 @@ const stateDefault = {
     listUserSelector:[],
     listUserWaiting: [],
     listUserJoined:[],
+    listSearchUser: [],
     userName: userLogin,
     userType:"",
     courseKey: "",
@@ -65,6 +66,10 @@ export const UserReducer = (state=stateDefault, action) => {
         case 'GET_KEY_COURSE':{
             state.courseKey = action.payload;
             return { ...state };
+        }
+        case 'SEARCH_USER' : {
+            state.listSearchUser = action.listSearchUser;
+            return {...state}
         }
 
         case 'RESET_LOADING_USER':{

@@ -82,40 +82,12 @@ export default function CourseCard(props) {
       <Card sx={styles.root}>
         <CardMedia
           component="img"
-          image="./img/course1.jpg"
           alt=""
           sx={styles.cardImage}
-        />
+          src={courseInfo.hinhAnh}/>
+        
         <CardContent sx={{ padding: "30px" }}>
-          {/* <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography
-              gutterBottom
-              color="#FE79A2"
-              fontSize="18px"
-              fontWeight="700"
-            >
-              $35.00
-            </Typography>
-            <Rating
-              name="read-only"
-              value={3}
-              readOnly
-              sx={{ fontSize: "20px" }}
-            />
-          </Box> */}
-          <Box
-          sx={{
-            width: "100%"
-          }}
-
-          >
-            <img src={courseInfo.hinhAnh}/>
-          </Box>
+         
           <Link
             component={RouterLink}
             to={`/course/${courseInfo.maKhoaHoc}`}
@@ -123,46 +95,8 @@ export default function CourseCard(props) {
           >
             {courseInfo.tenKhoaHoc}
           </Link>
-          {/* <Box sx={{ display: "flex", mt: "1.5rem" }}>
-            <Box>
-              <AccessTimeOutlinedIcon
-                sx={{
-                  verticalAlign: "middle",
-                  ...styles.cardNormalTextColor,
-                }}
-              />
-            </Box>
-            <Box sx={{ ml: "20px" }}>
-              <PersonOutlineOutlinedIcon
-                sx={{
-                  verticalAlign: "middle",
-                  ...styles.cardNormalTextColor,
-                }}
-              />
-              <Typography
-                component="span"
-                sx={{
-                  ...styles.cardNormalTextColor,
-                  ml: "5px",
-                  verticalAlign: "middle",
-                }}
-              >
-                {courseInfo.soLuongHocVien}
-              </Typography>
-            </Box>
-          </Box> */}
         </CardContent>
         <CardActions sx={styles.cardFooter}>
-          {/* <CardMedia
-            component="img"
-            image="./img/teacher1.jpg"
-            alt=""
-            sx={{
-              borderRadius: "50%",
-              width: "40px",
-              height: "40px",
-            }}
-          /> */}
           <Typography
             component="span"
             sx={{
@@ -170,9 +104,9 @@ export default function CourseCard(props) {
               ...styles.cardNormalTextColor,
             }}
           >
-            bởi
+            tác giả: 
           </Typography>
-          <Link sx={{ ...styles.courseAuthorLink, maxWidth: "50px" }}>
+          <Link sx={{ ...styles.courseAuthorLink, maxWidth: "80px" }}>
             {courseInfo.nguoiTao.hoTen}
           </Link>
           <Typography

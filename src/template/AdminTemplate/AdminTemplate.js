@@ -25,10 +25,10 @@ export const AdminTemplate = (props) => {
     const path = getPath.split("/");
     const defaultKey = (path) => {
         let key = "1";
-        if (path == 'list-course') {
+        if (path == 'course') {
             key = "7";
         }
-        if (path == 'list-user' || path == 'i-detail') {
+        if (path == 'user' || path == 'i-detail') {
             key = "3";
         }
         return key;
@@ -70,10 +70,10 @@ export const AdminTemplate = (props) => {
                             Notifications
                         </Menu.Item>
                         <SubMenu key="sub1" icon={<UserOutlined />} title="Quản Lý Người Dùng">
-                            <Menu.Item key="3"><NavLink to="/admin/list-user">Danh Sách Người Dùng</NavLink></Menu.Item>
+                            <Menu.Item key="3"><NavLink to="/admin/user">Danh Sách Người Dùng</NavLink></Menu.Item>
                         </SubMenu>
                         <SubMenu key="sub2" icon={<InsertRowBelowOutlined />} title="Quản Lý Khóa Học">
-                            <Menu.Item key="7"><NavLink to="/admin/list-course">Danh Sách Khóa Học</NavLink></Menu.Item>
+                            <Menu.Item key="7"><NavLink to="/admin/course">Danh Sách Khóa Học</NavLink></Menu.Item>
                         </SubMenu>
                     </Menu>
                 </Sider>

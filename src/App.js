@@ -14,8 +14,10 @@ import { AdminTemplate } from './template/AdminTemplate/AdminTemplate';
 import CourseDetail from './pages/CourseDetail/CourseDetail';
 import UserProfile from './pages/User/UserProfile';
 import ListUser from './pages/Admin/ListUser/ListUser';
-import CourseTable from './pages/Admin/ListCourse/ListCourse';
 import DashBoard from './pages/Admin/Dashboard/DashBoard';
+import NewCourse from './pages/Admin/ListCourse/NewCourse/NewCourse';
+import EditCourse from './pages/Admin/ListCourse/EditCourse/EditCourse';
+import ListCourse from './pages/Admin/ListCourse/ListCourse';
 export const history = createBrowserHistory();
 
 
@@ -32,8 +34,10 @@ function App() {
             <UserTemplate path="/user-profiles/:id" exact component={UserProfile} />
             <Route path="/course/:maKhoaHoc" component={CourseDetail} />
             <AdminTemplate path="/admin" exact component={DashBoard} />
-            <AdminTemplate path="/admin/list-course" exact component={CourseTable} />
-            <AdminTemplate path="/admin/list-user" exact component={ListUser} />
+            <AdminTemplate path="/admin/course" exact component={ListCourse} />
+            <AdminTemplate path="/admin/course/newcourse" exact component={NewCourse} />
+            <AdminTemplate path="/admin/course/editcourse/:id/" exact component={EditCourse} />
+            <AdminTemplate path="/admin/user" exact component={ListUser} />
             <Route parth="*" component={PageNotFound} />
           </Switch>
       </div>

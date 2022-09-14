@@ -15,7 +15,6 @@ export default function UserInfor(props) {
     hoTen: "",
     soDT: "",
     maLoaiNguoiDung: "HV",
-    maNhom: "GP04",
     email: "",
   });
   useEffect(()=>{
@@ -26,7 +25,6 @@ export default function UserInfor(props) {
         hoTen: user.hoTen,
         soDT: user.soDT,
         maLoaiNguoiDung: user.maLoaiNguoiDung,
-        maNhom: user.maNhom,
         email: user.email,
       })
     }
@@ -75,8 +73,8 @@ export default function UserInfor(props) {
             shrink: true,
           }}
           type="text"
-          name="SoDT"
-          value={userProfile.soDT}
+          name="SoDt"
+          value={userProfile.soDt}
           onChange={handleOnChange}
         />
       </div>

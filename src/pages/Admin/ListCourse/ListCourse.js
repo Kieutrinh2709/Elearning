@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
+import {
+    EditOutlined,
+    DeleteOutlined,
+    HighlightOutlined
+    
+} from '@ant-design/icons';
 import { Box, Button, Table } from '@mui/material';
+import { deleteCourseAction, getListCourseAction } from '../../../redux/actions/CourseAction';
+import { Input } from 'antd';
 import { getListUserJoinedAction, getListUserSelectorAction, getListUserWaitingAction } from '../../../redux/actions/UserAction';
-import { deleteCourseAction } from '../../../redux/actions/CourseAction';
-import CourseForm from './FormCourse/FormCourse';
+import { useEffect } from 'react';
+import { SearchOutlined } from '@mui/icons-material';
+import { history } from '../../../App';
+import { NavLink } from 'react-router-dom';
+const { Search } = Input;
 
-
-export default function CourseTable(props) {
+export default function ListCourse(props) {
     const [typeAction, setTypeAction] = useState('update');
     const dispatch = useDispatch();
-    const [course, setCourse] = useState({ course: [] });
+    const [courseUpdate, setCourseUpdate] = useState({ courseUpdate: [] });
     const [showForm, setShowForm] = useState(false);
     const handleCloseForm = () => setShowForm(false);
 
@@ -32,11 +39,15 @@ export default function CourseTable(props) {
         dispatch(getListUserJoinedAction(key));
         dispatch(getCourseKey(courseKey))
     };
+    const { listCourseShowing } = useSelector(state => state.CourseReducer);
+    useEffect(() => {
+        dispatch(getListCourseAction());
+
+    }, [])
     const columns = [
         {
             title: 'MÃ KHÓA HỌC',
             width: 70,
-            fixed: 'left',
             dataIndex: 'maKhoaHoc',
             key: 'maKhoaHoc',
         },
@@ -44,7 +55,6 @@ export default function CourseTable(props) {
             title: 'TÊN KHÓA HỌC',
             width: 100,
             dataIndex: 'tenKhoaHoc',
-            fixed: 'left',
             key: 'tenKhoaHoc',
         },
 
@@ -72,58 +82,57 @@ export default function CourseTable(props) {
             key: 'operation',
             fixed: 'right',
             width: 150,
-            render: (text, course, index) => (
+            render: (text, course) => (
                 <>
-                    <Button key={index} className="btnAdminP" type="primary" onClick={() => {
-                        setCourse(course);
-                        setTypeAction('update');
-                        setShowForm(true);
-                    }}><EditIcon /></Button>
-                    <Button onClick={() => {
-                        Swal.fire({
-                            title: `Bạn có chắc muốn xóa khóa học này !`,
-                            text: course.tenKhoaHoc,
-                            icon: 'question',
-                            showCancelButton: true,
-                            confirmButtonColor: '#fb4226',
-                            cancelButtonColor: 'rgb(167 167 167)',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                dispatch(deleteCourseAction(course.maKhoaHoc));
-                            }
-                        })
-                    }} key={index + 10000} type="primary" className="btnAdminP" danger ><DeleteIcon /></Button>
+                    <NavLink key={1} className="mr-2 text-base success" to ={`/admin/course/editcourse/${course.maKhoaHoc}`}><EditOutlined /></NavLink>
+                    <span style={{ cursor: 'pointer' }} key={2} className=" mr-2 text-base" onClick={() => {
+                        if (window.confirm('Bạn có chắc muốn xoá khóa học ' + course.tenKhoaHoc)) {
+                            //Gọi action
+                            dispatch(deleteCourseAction(course.tenKhoaHoc));
+                        }
+
+
+                    }}><DeleteOutlined style={{ color: 'red' }} /> </span>
                     <Button
                         onClick={() => {
                             getCourseKey(course.maKhoaHoc);
                         }}
                     >
-                        <HowToRegIcon />
+                        <HighlightOutlined />
                     </Button>
                 </>
             ),
         },
     ];
+    const data = listCourseShowing;
+
+
+
+    const onSearch = value => {
+
+        console.log(value);
+        dispatch(getListCourseAction(value));
+
+    };
+
+    function onChange(pagination, filters, sorter, extra) {
+        console.log('params', pagination, filters, sorter, extra);
+    }
     return (
         <div>
-            <Box>
-                <Button type="primary" style={{ width: '100%', margin: '3px 0' }} danger onClick={() => {
-                    setTypeAction('insert');
-                    setShowForm(true);
-                }} >
-                    Thêm Khóa Học
-                </Button>
-            </Box>
+            <h3 className="text-4xl">Quản lý khóa học</h3>
+            <Button className="mb-5 bg-danger" onClick={() => {
+                history.push('/admin/course/newcourse');
+            }}>Thêm khóa học</Button>
+            <Search
+                className="mb-5"
+                placeholder="Mã khóa học, tên khóa học, ..."
+                enterButton={<SearchOutlined />}
+                size="large"
 
-            <Table
-                columns={columns}
-                dataSource={props.data}
-                scroll={{ x: 300 }}
-                bordered="true"
-                sticky
+                onSearch={onSearch}
             />
-            <CourseForm show={showForm} close={handleCloseForm} course={course} type={typeAction} />
+            <Table columns={columns} dataSource={data} onChange={onChange} rowKey={"maKhoaHoc"} />
         </div>
     )
 }

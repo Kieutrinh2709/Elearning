@@ -45,10 +45,10 @@ export default function CourseList() {
     }
   }, [selectCategory]);
 
-  const dataCourseCategory = useSelector(
+  const listCategoryShowing = useSelector(
     (state) => state.CourseReducer.listCategoryShowing
   );
-  const dataCourseList = useSelector(
+  const listCourseShowing = useSelector(
     (state) => state.CourseReducer.listCourseShowing
   );
 
@@ -89,10 +89,10 @@ export default function CourseList() {
 
   // hàm render pagination sau khi lấy được danh sách khóa học
   const renderPagination = () => {
-    if (!dataCourseList) {
+    if (!listCourseShowing) {
       return;
     }
-    const pages = Math.ceil(dataCourseList?.length / 6);
+    const pages = Math.ceil(listCourseShowing?.length / 6);
     return (
       <Pagination
         count={pages}
@@ -117,7 +117,7 @@ export default function CourseList() {
     window.scroll(0, 0);
     const firstItem = (page - 1) * 6;
     const lastItem = firstItem + 6;
-    courseList = dataCourseList?.slice(firstItem, lastItem);
+    courseList = listCourseShowing?.slice(firstItem, lastItem);
     return courseList?.map((course) => (
       <Box sx={styles.courseItem} key={course.maKhoaHoc}>
         <CourseCard courseInfo={course} />
@@ -129,16 +129,16 @@ export default function CourseList() {
     <Fragment>
       <ThemeProvider theme={theme}>
         <Box sx={styles.container}>
-          {dataCourseCategory && (
+          {listCategoryShowing && (
             <CourseCategory
-              courseCategory={dataCourseCategory}
+              courseCategory={listCategoryShowing}
               selectCategory={selectCategory}
               setSelectCategory={setSelectCategory}
               setPage={setPage}
             />
           )}
           <Box sx={styles.containerFlex}>
-            {dataCourseCategory && renderCourseList()}
+            {listCategoryShowing && renderCourseList()}
           </Box>
           {renderPagination()}
         </Box>

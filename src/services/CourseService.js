@@ -26,8 +26,8 @@ export class CourseService extends baseService {
     getDetailCourse = (maKhoaHoc) => {
         return this.get(`/api/QuanLyKhoaHoc/LayThongTinKhoaHoc?maKhoaHoc=${maKhoaHoc}`);
     };
-    updateCourse =(courseUpdate)=>{
-        return this.put(`/api/QuanLyKhoaHoc/CapNhatKhoaHoc`,courseUpdate )
+    updateCourse =(formData)=>{
+        return this.put(`/api/QuanLyKhoaHoc/CapNhatKhoaHoc`,formData )
 
     }
     addCourseUploadImg = (formData) => {
@@ -41,8 +41,8 @@ export class CourseService extends baseService {
     deleteCourse = (maKhoaHoc) => {
         return this.delete(`api/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${maKhoaHoc}`);
     };
-    addCourse=(courseAdd)=>{
-        return this.post(`/api/QuanLyKhoaHoc/ThemKhoaHoc`, courseAdd);
+    addCourse=(formData)=>{
+        return this.post(`/api/QuanLyKhoaHoc/ThemKhoaHoc`, formData);
     }
     registerCourse=(courseInfor)=>{
         return this.post(`/api/QuanLyKhoaHoc/GhiDanhKhoaHoc`, courseInfor);

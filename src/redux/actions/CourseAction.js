@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import { getDetailUserAction } from './UserAction';
-import { COURSE_ADD_TO_CART, GET_DETAIL_COURSE, GET_KEYWORD, GET_LIST_CATEGORY, GET_LIST_COURSE, GET_LIST_COURSE_BY_CATEGORY, INTO_PAGINATION } from './type/CourseType';
+import { CANCEL_REGISTER_COURSE, COURSE_ADD_TO_CART, GET_DETAIL_COURSE, GET_KEYWORD, GET_LIST_CATEGORY, GET_LIST_COURSE, GET_LIST_COURSE_BY_CATEGORY, INTO_PAGINATION, REGISTER_COURSE } from './type/CourseType';
 import { courseService } from '../../services/CourseService';
 
 export const getListCourseAction = (tenKhoaHoc = '') => {
@@ -116,8 +116,8 @@ export const addCourseUploadImgAction = (formData) => {
                     title: 'Thêm khóa học thành công!',
                     icon: 'success',
                     confirmButtonColor: '#44c020'
-                }).then((result)=>{
-                    if(result.isConfirmed){
+                }).then((result) => {
+                    if (result.isConfirmed) {
                         dispatch(getListCourseAction());
 
                     }
@@ -194,7 +194,11 @@ export const registerCourseAction = (courseInfor) => {
                     confirmButtonColor: '#44c020'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        dispatch({ type: 'REGISTER_COURSE', registerCourse: result.data, isLoading: false });
+                        dispatch({
+                            type: REGISTER_COURSE,
+                            registerCourse: result.data,
+                            isLoading: false
+                        });
                     }
                 })
             }
@@ -220,7 +224,11 @@ export const cancelCourseAction = (courseInfor) => {
                     confirmButtonColor: '#44c020'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        dispatch({ type: 'CANCEL_REGISTER_COURSE', cancelCourse: result.data, isLoading: false });
+                        dispatch({
+                            type: CANCEL_REGISTER_COURSE,
+                            cancelCourse: result.data,
+                            isLoading: false
+                        });
                         dispatch(getDetailUserAction(courseInfor.taikhoan));
                     }
                 })

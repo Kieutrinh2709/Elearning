@@ -5,7 +5,7 @@ import {
     EditOutlined,
     DeleteOutlined,
     HighlightOutlined
-    
+
 } from '@ant-design/icons';
 import { Box, Button, Table } from '@mui/material';
 import { deleteCourseAction, getListCourseAction } from '../../../redux/actions/CourseAction';
@@ -15,16 +15,11 @@ import { useEffect } from 'react';
 import { SearchOutlined } from '@mui/icons-material';
 import { history } from '../../../App';
 import { NavLink } from 'react-router-dom';
+import { Fragment } from 'react';
 const { Search } = Input;
 
 export default function ListCourse(props) {
-    const [typeAction, setTypeAction] = useState('update');
     const dispatch = useDispatch();
-    const [courseUpdate, setCourseUpdate] = useState({ courseUpdate: [] });
-    const [showForm, setShowForm] = useState(false);
-    const handleCloseForm = () => setShowForm(false);
-
-
     const [showRegisterModal, setShowRegisterModal] = React.useState(false);
     const handleShowRegisterModal = () => setShowRegisterModal(true);
     const handleCloseRegisterModal = () => setShowRegisterModal(false);
@@ -39,7 +34,7 @@ export default function ListCourse(props) {
         dispatch(getListUserJoinedAction(key));
         dispatch(getCourseKey(courseKey))
     };
-    const { listCourseShowing } = useSelector(state => state.CourseReducer);
+    const { listCourseShowing } = useSelector((state) => state.CourseReducer);
     useEffect(() => {
         dispatch(getListCourseAction());
 
@@ -47,61 +42,123 @@ export default function ListCourse(props) {
     const columns = [
         {
             title: 'MÃ KHÓA HỌC',
-            width: 70,
+            width: '10%',
             dataIndex: 'maKhoaHoc',
             key: 'maKhoaHoc',
         },
         {
-            title: 'TÊN KHÓA HỌC',
-            width: 100,
-            dataIndex: 'tenKhoaHoc',
-            key: 'tenKhoaHoc',
+            title: "Tên khoá học",
+            dataIndex: "tenKhoaHoc",
+            sorter: (a, b) => {
+                let courseA = a.tenKhoaHoc.toLowerCase().trim();
+                let courseB = b.tenKhoaHoc.toLowerCase().trim();
+                if (courseA > courseB) {
+                    return 1;
+                }
+                return -1;
+            },
+            sortDirections: ["descend"],
+            width: "20%",
         },
 
         {
-            title: 'HÌNH ẢNH',
-            dataIndex: 'hinhAnh',
-            key: 'hinhAnh',
-            width: 150,
-            render: text => <img style={{ width: '100px', height: '100px', borderRadius: '10px' }} src={text} />,
+            title: "Hình Ảnh",
+            dataIndex: "hinhAnh",
+            render: (text, course, index) => {
+                return (
+                    <Fragment>
+                        <img
+                            className="rounded-md"
+                            src={course.hinhAnh}
+                            alt={course.tenKhoaHoc}
+                            width="100"
+                            height="100"
+                            onError={(e) => {
+                                e.target.onError = null;
+                                e.target.src = `https://picsum.photos/id/${index}/100/100`;
+                            }}
+                        />
+                    </Fragment>
+                );
+            },
+            width: "5%",
         },
         {
             title: 'MÔ TẢ',
             dataIndex: 'moTa',
             key: 'moTa',
-            width: 350,
+            render: (text, course) => {
+                return (
+                    <Fragment>
+                        {course.moTa.length > 100
+                            ? course.moTa.slice(0, 100) + "..."
+                            : course.moTa}
+                    </Fragment>
+                );
+            },
+            width: "25%",
+        },
+        {
+            title: "Khoá học",
+            dataIndex: "danhMucKhoaHoc.tenDanhMucKhoaHoc",
+            render: (text, course) => {
+                return <Fragment>{course.danhMucKhoaHoc.tenDanhMucKhoaHoc}</Fragment>;
+            },
+            sorter: (a, b) => {
+                let danhMucA = a.danhMucKhoaHoc.tenDanhMucKhoaHoc.toLowerCase().trim();
+                let danhMucB = b.danhMucKhoaHoc.tenDanhMucKhoaHoc.toLowerCase().trim();
+                if (danhMucA > danhMucB) {
+                    return 1;
+                }
+                return -1;
+            },
+            width: "15%",
         },
         {
             title: 'NGƯỜI TẠO',
-            dataIndex: 'taiKhoanNguoiTao',
+            dataIndex: 'nguoiTao.taiKhoan',
             key: 'taiKhoanNguoiTao',
-            width: 100,
+            render: (text, course) => {
+                return <Fragment>{course.nguoiTao.taiKhoan}</Fragment>;
+            },
+            sorter: (a, b) => {
+                let nguoiTaoA = a.nguoiTao.taiKhoan.toLowerCase().trim();
+                let nguoiTaoB = b.nguoiTao.taiKhoan.toLowerCase().trim();
+                if (nguoiTaoA > nguoiTaoB) {
+                    return 1;
+                }
+                return -1;
+            },
+            width: "10%",
         },
         {
             title: 'Action',
-            key: 'operation',
-            fixed: 'right',
-            width: 150,
-            render: (text, course) => (
-                <>
-                    <NavLink key={1} className="mr-2 text-base success" to ={`/admin/course/editcourse/${course.maKhoaHoc}`}><EditOutlined /></NavLink>
-                    <span style={{ cursor: 'pointer' }} key={2} className=" mr-2 text-base" onClick={() => {
-                        if (window.confirm('Bạn có chắc muốn xoá khóa học ' + course.tenKhoaHoc)) {
-                            //Gọi action
-                            dispatch(deleteCourseAction(course.tenKhoaHoc));
-                        }
+            dataIndex: 'action',
+            // key: 'operation',
+            // fixed: 'right',
+            render: (text, course) => {
+                return (
+                    <Fragment>
+                        <NavLink key={1} className="mr-2 text-base success" to={`/admin/course/editcourse/${course.maKhoaHoc}`}><EditOutlined /></NavLink>
+                        <span style={{ cursor: 'pointer' }} key={2} className=" mr-2 text-base" onClick={() => {
+                            if (window.confirm('Bạn có chắc muốn xoá khóa học ' + course.tenKhoaHoc)) {
+                                //Gọi action
+                                dispatch(deleteCourseAction(course.tenKhoaHoc));
+                            }
 
 
-                    }}><DeleteOutlined style={{ color: 'red' }} /> </span>
-                    <Button
-                        onClick={() => {
-                            getCourseKey(course.maKhoaHoc);
-                        }}
-                    >
-                        <HighlightOutlined />
-                    </Button>
-                </>
-            ),
+                        }}><DeleteOutlined style={{ color: 'red' }} /> </span>
+                        <Button
+                            onClick={() => {
+                                getCourseKey(course.maKhoaHoc);
+                            }}
+                        >
+                            <HighlightOutlined />
+                        </Button>
+                    </Fragment>
+                );
+            }
+
         },
     ];
     const data = listCourseShowing;

@@ -21,7 +21,7 @@ export default function Header() {
                     </div>
                     <div className="header__nav">
                         <ul>
-                            <li><a href="#home">Trang chủ</a> </li>
+                            <li><a href="/">Trang chủ</a> </li>
                             <li><a href="#courseList">Khóa học</a></li>
                             <li><a href="#news">Tin tức</a></li>
                         </ul>
@@ -63,7 +63,7 @@ export default function Header() {
                         </span>
                     </div>
                     <div className="mobile__nav">
-                        <a href="#">Trang chủ</a>
+                        <a href="/">Trang chủ</a>
                     </div>
                     <div className="mobile__nav">
                         <a href="#">Khóa học</a>

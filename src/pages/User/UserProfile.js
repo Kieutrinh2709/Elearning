@@ -13,6 +13,8 @@ import UserCourse from "./UserCourse";
 
 import { actUserProfile } from "../../redux/actions/UserAction";
 import { makeStyles } from "@mui/styles";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 
 
@@ -89,6 +91,7 @@ function UserProfile(props) {
     <Redirect to="/" />
   ) : (
     <>
+    <Header/>
       <div className={classes.content}>
         <div className={classes.title}>
           <h2>{user && user.hoTen}</h2>
@@ -137,6 +140,7 @@ function UserProfile(props) {
           </Grid>
         </Box>
       </div>
+      <Footer/>
     </>
   );
 }

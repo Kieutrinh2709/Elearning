@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { history } from '../../App';
-import { CANCEL_COURSE_FAILED, CANCEL_COURSE_REQUEST, CANCEL_COURSE_SUCCESS, GETKEYWORD, GET_USERINFO_REQUEST, LOGIN, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, ONSUBMIT_FAILED, ONSUBMIT_REQUEST, ONSUBMIT_SUCCESS, UPDATE_PROFILE_FAILED, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, USER_LIST_FAILED, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_PROFILE_FAILED, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS } from './type/UserType';
+import { CANCEL_COURSE_FAILED, CANCEL_COURSE_REQUEST, CANCEL_COURSE_SUCCESS, GETKEYWORD, GET_USERINFO_REQUEST, LOGIN, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, ONSUBMIT_FAILED, ONSUBMIT_REQUEST, ONSUBMIT_SUCCESS, REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS, UPDATE_PROFILE_FAILED, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, USER_LIST_FAILED, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_PROFILE_FAILED, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS } from './type/UserType';
 import Swal from 'sweetalert2'
 import { GROUP_ID, TOKEN, TYPE_USER, USER_LOGIN } from '../../util/setting';
 import https from '../../services/baseService';
@@ -55,35 +55,38 @@ const actLoginFailed = (error) => {
 
 export const registerAction = (user) => {
 
-    return async (dispatch) => {
-        try {
-            const result = await axios({
-                url: 'https://elearningnew.cybersoft.edu.vn/api/QuanLyNguoiDung/DangKy',
-                method: 'POST',
-                data: user
+    return (dispatch) => {
+        dispatch(actRegisterRequest());
+        https
+            .post("QuanLyNguoiDung/DangKy", user)
+            .then((result) => {
+                dispatch(actRegisterSuccess(result.data));
+                history.push("/login");
             })
-            if (result.status === 200) {
-                Swal.fire({
-                    title: 'Đăng ký thành công!',
-                    icon: 'success',
-                    confirmButtonColor: '#44c020'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        history.push("/login");
-                    }
-                })
-
-            }
-
-        } catch (errors) {
-            Swal.fire({
-                title: 'Đăng ký thất bại!',
-                text: `${errors.response?.data}`,
-                icon: 'error',
-            })
-        }
-    }
+            .catch((err) => {
+                dispatch(actRegisterFailed(err));
+            });
+    };
 }
+const actRegisterRequest = () => {
+    return {
+        type: REGISTER_REQUEST,
+    };
+};
+
+const actRegisterSuccess = (data) => {
+    return {
+        type: REGISTER_SUCCESS,
+        payload: data,
+    };
+};
+
+const actRegisterFailed = (err) => {
+    return {
+        type: REGISTER_FAILED,
+        payload: err,
+    };
+};
 export const actGetUser = () => {
     return (dispatch) => {
         dispatch(actGetUserRequest());
@@ -200,18 +203,18 @@ export const actUpdateUser = (user) => {
     return (dispatch) => {
         dispatch(actUpdateUserRequest());
         https
-          .put(`QuanLyNguoiDung/CapNhatThongTinNguoiDung`, user)
-          .then((result) => {
-            alert("Cap Nhat Thanh Cong");
-            console.log("result", result.data);
-            dispatch(actUpdateUserSuccess(result.data));
-          })
-          .catch((err) => {
-            console.log("err", err.response);
-            dispatch(actUpdateUserFailed(err.response?.data));
-          });
-      };
+            .put(`QuanLyNguoiDung/CapNhatThongTinNguoiDung`, user)
+            .then((result) => {
+                alert("Cap Nhat Thanh Cong");
+                console.log("result", result.data);
+                dispatch(actUpdateUserSuccess(result.data));
+            })
+            .catch((err) => {
+                console.log("err", err.response);
+                dispatch(actUpdateUserFailed(err.response?.data));
+            });
     };
+};
 const actUpdateUserRequest = () => {
     return {
         type: ONSUBMIT_REQUEST,

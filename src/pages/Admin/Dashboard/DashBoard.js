@@ -1,7 +1,5 @@
 import React from "react";
 
-
-
 export default function DashBoard() {
 
     const hoTen = JSON.parse(localStorage.getItem("GV")).hoTen;

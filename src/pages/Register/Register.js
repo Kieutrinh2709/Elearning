@@ -4,7 +4,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { registerAction } from '../../redux/actions/UserAction';
-import { USER_LOGIN } from '../../util/setting';
 import { Alert } from '@mui/material';
 
 
@@ -25,8 +24,8 @@ export default function Register() {
             taiKhoan: Yup.string().required('Tài khoản không được bỏ trống !').min(6,'Tài khoản tối thiếu 6 ký tự !'),
             matKhau: Yup.string().required('Mật khẩu không được bỏ trống !').min(3,'Mật khẩu tối thiểu 3 ký tự !').max(32,'Mật khẩu tối đa 32 ký tự !')
         }),
-        onSubmit: values => {
-            values.maLoaiNguoiDung = "KhachHang";
+        onSubmit: (values) => {
+            values.maLoaiNguoiDung = "HV";
             values.maNhom = "GP01";
             dispatch(registerAction(values));
         },
@@ -35,7 +34,7 @@ export default function Register() {
     const onChange = (date, dateString) => {
         console.log(dateString);
     }
-    if(localStorage.getItem(USER_LOGIN)){
+    if(localStorage.getItem("HV")){
         return <Redirect to="/" />
     }
     return (

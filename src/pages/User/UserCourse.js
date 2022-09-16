@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
@@ -10,7 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
-import { cancelCourseAction } from "../../redux/actions/CourseAction";
+import { actCancelCourse } from "../../redux/actions/UserAction";
 
 export default function UserCourse(props) {
   const { user } = props;
@@ -42,7 +41,7 @@ export default function UserCourse(props) {
                     sx={{ display: "inline" }}
                     component="span"
                     variant="body2"
-                    color="text.primary"
+                    // color="text.primary"
                   >
                     {course.moTa}
                   </Typography>
@@ -53,14 +52,14 @@ export default function UserCourse(props) {
             />
             <Box sx={{ "& button": { m: 1 } }}>
               <Button
-                className="classes.button"
+                // className="classes.button"
                 variant="contained"
                 size="small"
                 onClick={() => {
-                  dispatch(cancelCourseAction(courseInfo));
+                  dispatch(actCancelCourse(courseInfo));
                 }}
               >
-                Hủy
+                Hủy ghi danh
               </Button>
             </Box>
           </ListItem>

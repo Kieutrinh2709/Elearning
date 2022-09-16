@@ -8,7 +8,7 @@ import { Box } from "@mui/system";
 export default function UserSelector(props) {
   const dispatch = useDispatch();
 
-  const { dataUserSelector, courseKey } = props;
+  const { dataUserSelector, courseCode } = props;
 
   const userList = dataUserSelector?.map((user, index) => {
     return {
@@ -18,7 +18,7 @@ export default function UserSelector(props) {
   });
 
   const courseInfo= {
-    maKhoaHoc: courseKey,
+    maKhoaHoc: courseCode,
     taiKhoan:''
   }
   console.log(userList)

@@ -2,9 +2,9 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Pagination } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { getCourseByCategoryAction, getListCategoryAction, getListCourseAction } from "../../redux/actions/CourseAction";
-import CourseCategory from "./CourseCategory";
+import { actCourseAllGet, actCourseByCategoryGet, actCourseCategoryGet } from "../../redux/actions/CourseAction";
 import CourseCard from "./CourseCard";
+import CourseCategory from "./CourseCategory";
 
 const theme = createTheme({
   breakpoints: {
@@ -33,23 +33,22 @@ export default function CourseList() {
   const [selectCategory, setSelectCategory] = useState("All");
 
   useEffect(() => {
-    dispatch(getListCategoryAction());
+    dispatch(actCourseCategoryGet());
   }, []);
 
-  // Lấy danh sách tất cả khóa học và khóa học theo danh mục
   useEffect(() => {
     if (selectCategory !== "All") {
-      dispatch(getCourseByCategoryAction(selectCategory));
+      dispatch(actCourseByCategoryGet(selectCategory));
     } else {
-      dispatch(getListCourseAction());
+      dispatch(actCourseAllGet());
     }
   }, [selectCategory]);
 
-  const listCategoryShowing = useSelector(
-    (state) => state.CourseReducer.listCategoryShowing
+  const dataCourseCategory = useSelector(
+    (state) => state.CourseReducer.dataCourseCategory
   );
-  const listCourseShowing = useSelector(
-    (state) => state.CourseReducer.listCourseShowing
+  const dataCourseList = useSelector(
+    (state) => state.CourseReducer.dataCourseList
   );
 
   const styles = {
@@ -89,10 +88,10 @@ export default function CourseList() {
 
   // hàm render pagination sau khi lấy được danh sách khóa học
   const renderPagination = () => {
-    if (!listCourseShowing) {
+    if (!dataCourseList) {
       return;
     }
-    const pages = Math.ceil(listCourseShowing?.length / 6);
+    const pages = Math.ceil(dataCourseList?.length / 6);
     return (
       <Pagination
         count={pages}
@@ -117,7 +116,7 @@ export default function CourseList() {
     window.scroll(0, 0);
     const firstItem = (page - 1) * 6;
     const lastItem = firstItem + 6;
-    courseList = listCourseShowing?.slice(firstItem, lastItem);
+    courseList = dataCourseList?.slice(firstItem, lastItem);
     return courseList?.map((course) => (
       <Box sx={styles.courseItem} key={course.maKhoaHoc}>
         <CourseCard courseInfo={course} />
@@ -127,18 +126,19 @@ export default function CourseList() {
 
   return (
     <Fragment>
+      <h1 className="text-danger text-center mt-5">DANH SÁCH KHÓA HỌC</h1>
       <ThemeProvider theme={theme}>
         <Box sx={styles.container}>
-          {listCategoryShowing && (
+          {dataCourseCategory && (
             <CourseCategory
-              courseCategory={listCategoryShowing}
+              courseCategory={dataCourseCategory}
               selectCategory={selectCategory}
               setSelectCategory={setSelectCategory}
               setPage={setPage}
             />
           )}
           <Box sx={styles.containerFlex}>
-            {listCategoryShowing && renderCourseList()}
+            {dataCourseCategory && renderCourseList()}
           </Box>
           {renderPagination()}
         </Box>

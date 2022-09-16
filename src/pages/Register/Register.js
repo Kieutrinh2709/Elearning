@@ -17,10 +17,8 @@ export default function Register() {
             hoTen: "",
             email: "",
             soDt: "",
-            gioiTinh:"",
         },
         validationSchema: Yup.object().shape({
-            gioiTinh: Yup.string().required("Giới tính không được bỏ trống !"),
             soDt: Yup.number().required("SĐT không được bỏ trống !"),
             email: Yup.string().email('Email không đúng định dạng !').required('Email không được bỏ trống !'),
             hoTen: Yup.string().required('Họ tên không được bỏ trống !').min(6,'Họ tên tối thiểu 6 ký tự !').max(50,'Mật khẩu tối đa 50 ký tự !'),
@@ -70,15 +68,6 @@ export default function Register() {
                         </div>
                     </div>
                     <div className="form-group row" >
-                        <div className="col-12 col-sm-6">
-                            <select type="text" name="gioiTinh" className="form-control input__line" onChange={formik.handleChange} placeholder="Giới Tính" id="displayName" >
-                                <option value="" disabled selected>Giới Tính</option>
-                                <option>Nam</option>
-                                <option>Nữ</option>
-                            </select>
-                            {formik.errors.gioiTinh? <Alert message={formik.errors.gioiTinh} type="error" showIcon /> : ''}
-                            {/* <p className="text-danger">{formik.errors.gioiTinh}</p>  */}
-                        </div>
                         {/* <div className="col-12 col-sm-4">
                             <DatePicker style={{ width: '100%' }} placeholder="Ngày Sinh" onChange={formik.handleChange} />
                             <p className="text-danger">{formik.errors.ngaySinh}</p> 

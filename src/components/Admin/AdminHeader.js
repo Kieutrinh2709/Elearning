@@ -25,7 +25,7 @@ const NavBarAdmin = () => {
         style={{
           elevation: 0,
           position: "fixed",
-          backgroundColor: "#032055",
+          backgroundColor: "#000000",
         }}
       >
         <Toolbar>

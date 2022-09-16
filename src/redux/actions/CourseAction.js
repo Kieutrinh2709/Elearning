@@ -1,251 +1,311 @@
-import Swal from 'sweetalert2';
-import { getDetailUserAction } from './UserAction';
-import { CANCEL_REGISTER_COURSE, COURSE_ADD_TO_CART, GET_DETAIL_COURSE, GET_KEYWORD, GET_LIST_CATEGORY, GET_LIST_COURSE, GET_LIST_COURSE_BY_CATEGORY, INTO_PAGINATION, REGISTER_COURSE } from './type/CourseType';
-import { courseService } from '../../services/CourseService';
+import https from '../../services/baseService';
+import { GROUP_ID } from '../../util/setting';
+import { ADMIN_REGISTER_COURSE_FAILED, ADMIN_REGISTER_COURSE_REQUEST, ADMIN_REGISTER_COURSE_SUCCESS, COURSE_ADD_TO_CARD, COURSE_CATEGORY_SUCCESS, COURSE_DETAIL_SUCCESS, COURSE_FAILED, COURSE_LIST_SUCCESS, COURSE_REQUEST, GET_CODECOURSE, REGISTER_COURSE_FAILED, REGISTER_COURSE_REQUEST, REGISTER_COURSE_SUCCESS } from './type/CourseType';
 
-export const getListCourseAction = (tenKhoaHoc = '') => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.getListCourse(tenKhoaHoc);
-            dispatch({
-                type: GET_LIST_COURSE,
-                listCourse: result.data,
-                isLoading: false
-            })
-        } catch (errors) {
-            console.log(errors);
-        }
-    }
-}
-export const getListCategoryAction = () => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.getListCategory();
-            dispatch({
-                type: GET_LIST_CATEGORY,
-                listCategory: result.data,
-                isLoading: false
-            })
-        } catch (errors) {
-            console.log(errors);
-        }
-    }
-}
-export const getCourseByCategoryAction = (category) => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.getCourseByCategory(category);
-            dispatch({
-                type: GET_LIST_COURSE_BY_CATEGORY,
-                listCourseByCategory: result.data,
-                isLoading: false
-            })
-        } catch (errors) {
-            console.log(errors);
-        }
-    }
-};
-export const paginateAction = () => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.paginateCourse();
-            dispatch({
-                type: INTO_PAGINATION,
-                paginationData: result.data,
-                isLoading: false
-            })
-        } catch (errors) {
-            console.log(errors);
-        }
-    }
-};
 
-export const getCourseDetailAction = (maKhoaHoc) => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.getDetailCourse(maKhoaHoc);
-            dispatch({
-                type: GET_DETAIL_COURSE,
-                detailCourse: result.data,
-                isLoading: false
+
+export const actCourseSearch = (tenKhoaHoc) => {
+    return (dispatch) => {
+        dispatch(actCourseRequest());
+
+        https
+            .get(
+                `https://elearningnew.cybersoft.edu.vn/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${tenKhoaHoc}&maNhom=${GROUP_ID}`
+            )
+            .then((result) => {
+                dispatch(actCourseListSuccess(result.data));
+            })
+            .catch((error) => {
+                dispatch(actCourseFailed(error));
             });
-        } catch (errors) {
-            console.log(errors);
-        }
-    }
-}
-export const addCourseToCart = (khoaHoc) => {
+    };
+};
+
+export const actCourseDelete = (maKhoaHoc) => {
+    return (dispatch) => {
+        // dispatch(actCourseRequest());
+
+        https
+            .delete(
+                `QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${maKhoaHoc}`
+            )
+            .then((result) => {
+                alert(result.data);
+                dispatch(actCourseAllGet());
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+            });
+    };
+};
+
+export const actCourseAdd = (data, form) => {
+    return (dispatch) => {
+        dispatch(actCourseRequest());
+        https
+            .post(
+                `https://elearningnew.cybersoft.edu.vn/api/QuanLyKhoaHoc/ThemKhoaHoc`,
+                data
+            )
+            .then(() => {
+                dispatch(actCourseImageAdd(form));
+                console.log("Add course success");
+                dispatch(actCourseAllGet());
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+                dispatch(actCourseFailed(error));
+            });
+    };
+};
+const actCourseImageUpdate = (form) => {
+    return (dispatch) => {
+        dispatch(actCourseRequest());
+
+        https
+            .post(
+                `https://elearningnew.cybersoft.edu.vn/api/QuanLyKhoaHoc/CapNhatKhoaHocUpload`,
+                form
+            )
+            .then(() => {
+                console.log("Update image success");
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+                dispatch(actCourseFailed(error));
+            });
+    };
+};
+export const actCourseUpdate = (data, form) => {
+    return (dispatch) => {
+        dispatch(actCourseRequest());
+        https
+            .post(
+                `https://elearningnew.cybersoft.edu.vn/api/QuanLyKhoaHoc/CapNhatKhoaHoc`,
+                data
+            )
+            .then(() => {
+                dispatch(actCourseImageUpdate(form));
+                console.log("Update course success");
+                dispatch(actCourseAllGet());
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+                dispatch(actCourseFailed(error));
+            });
+    };
+};
+
+
+
+
+const actCourseImageAdd = (form) => {
+    return (dispatch) => {
+        dispatch(actCourseRequest());
+
+        https
+            .post(
+                `https://elearningnew.cybersoft.edu.vn/api/QuanLyKhoaHoc/ThemKhoaHocUploadHinh`,
+                form
+            )
+            .then(() => {
+                console.log("Add image success");
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+                dispatch(actCourseFailed(error));
+            });
+    };
+};
+export const actCourseCategoryGet = () => {
+    return (dispatch) => {
+        dispatch(actCourseRequest());
+
+        https
+            .get("QuanLyKhoaHoc/LayDanhMucKhoaHoc")
+            .then((result) => {
+                dispatch(actCourseCategorySuccess(result.data));
+            })
+            .catch((error) => {
+                dispatch(actCourseFailed(error));
+            });
+    };
+};
+
+// Lấy danh sách tất cả khóa học
+export const actCourseAllGet = () => {
+    return (dispatch) => {
+        dispatch(actCourseRequest());
+
+        https
+            .get(`QuanLyKhoaHoc/LayDanhSachKhoaHoc?MaNhom=${GROUP_ID}`)
+            .then((result) => {
+                dispatch(actCourseListSuccess(result.data));
+            })
+            .catch((error) => {
+                dispatch(actCourseFailed(error));
+            });
+    };
+};
+
+// Lấy danh sách khóa học theo danh mục
+export const actCourseByCategoryGet = (category) => {
+    return (dispatch) => {
+        dispatch(actCourseRequest());
+
+        https
+            .get(
+                `QuanLyKhoaHoc/LayKhoaHocTheoDanhMuc?maDanhMuc=${category}&MaNhom=${GROUP_ID}`
+            )
+            .then((result) => {
+                dispatch(actCourseListSuccess(result.data));
+            })
+            .catch((error) => {
+                dispatch(actCourseFailed(error));
+            });
+    };
+};
+
+// Lấy danh sách khóa học cho trang home
+export const actCourseListHomeGet = () => {
+    return (dispatch) => {
+        dispatch(actCourseRequest());
+
+        https
+            .get(
+                `QuanLyKhoaHoc/LayDanhSachKhoaHoc_PhanTrang?page=1&pageSize=3&MaNhom=${GROUP_ID}`
+            )
+            .then((result) => {
+                dispatch(actCourseListSuccess(result.data));
+            })
+            .catch((error) => {
+                dispatch(actCourseFailed(error));
+            });
+    };
+};
+
+
+const actCourseCategorySuccess = (data) => {
+    return {
+        type: COURSE_CATEGORY_SUCCESS,
+        payload: data,
+    };
+};
+
+const actCourseListSuccess = (data) => {
+    return {
+        type: COURSE_LIST_SUCCESS,
+        payload: data,
+    };
+};
+
+export const actCourseDetailGet = (maKhoaHoc) => {
+    return (dispatch) => {
+        dispatch(actCourseRequest());
+
+        https
+            .get(`QuanLyKhoaHoc/LayThongTinKhoaHoc?maKhoaHoc=${maKhoaHoc}`)
+            .then((result) => dispatch(actCourseDetailSuccess(result.data)))
+            .catch((error) => dispatch(actCourseFailed(error)));
+    };
+};
+
+export const actCourseAddToCard = (khoaHoc) => {
     return (dispatch) =>
         dispatch({
-            type: COURSE_ADD_TO_CART,
+            type: COURSE_ADD_TO_CARD,
             payload: khoaHoc,
         });
 };
 
-export const updateCourseAction = (formData) => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.updateCourse(formData);
-            if (result.status === 200) {
-                Swal.fire({
-                    title: 'Cập nhật thành công!',
-                    icon: 'success',
-                    confirmButtonColor: '#44c020'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        dispatch(getListCourseAction())
-                    }
-                })
-            }
-        } catch (errors) {
-            console.log('lỗi', errors);
-            Swal.fire({
-                title: 'Cập nhật thất bại!',
-                text: `${errors.response?.data}`,
-                icon: 'error',
-            })
-        }
-    }
-};
-export const addCourseUploadImgAction = (formData) => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.addCourseUploadImg(formData);
-            if (result.status === 200) {
-                Swal.fire({
-                    title: 'Thêm khóa học thành công!',
-                    icon: 'success',
-                    confirmButtonColor: '#44c020'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        dispatch(getListCourseAction());
-
-                    }
-                })
-            }
-
-        } catch (errors) {
-            console.log(errors);
-        }
-    }
-
-};
-
-export const addCourseAction = (formData) => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.addCourse(formData);
-            if (result.status === 200) {
-                Swal.fire({
-                    title: 'Thêm thành công!',
-                    icon: 'success',
-                    confirmButtonColor: '#44c020'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // dispatch(addImgCourseAction(form));
-                        dispatch(getListCourseAction());
-                    }
-                })
-            }
-        } catch (errors) {
-            console.log('lỗi', errors);
-            Swal.fire({
-                title: 'Thêm thất bại!',
-                text: `${errors.response?.data}`,
-                icon: 'error',
-            })
-        }
-    }
-}
-
-export const deleteCourseAction = (maKhoaHoc) => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.deleteCourse(maKhoaHoc);
-            if (result.status === 200) {
-                Swal.fire({
-                    title: 'Xóa thành công!',
-                    icon: 'success',
-                    confirmButtonColor: '#44c020'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        dispatch(getListCourseAction())
-                    }
-                })
-            }
-        } catch (errors) {
-            console.log('lỗi', errors);
-            Swal.fire({
-                title: 'Xóa thất bại!',
-                text: `${errors.response?.data}`,
-                icon: 'error',
-            })
-        }
-    }
-}
-export const registerCourseAction = (courseInfor) => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.registerCourse(courseInfor);
-            if (result.status === 200) {
-                Swal.fire({
-                    title: 'Đăng ký khóa học thành công!',
-                    icon: 'success',
-                    confirmButtonColor: '#44c020'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        dispatch({
-                            type: REGISTER_COURSE,
-                            registerCourse: result.data,
-                            isLoading: false
-                        });
-                    }
-                })
-            }
-        } catch (errors) {
-            console.log('lỗi', errors);
-            Swal.fire({
-                title: 'Đăng ký khóa học thất bại!',
-                text: `${errors.response?.data}`,
-                icon: 'error',
-            })
-        }
-    }
-};
-
-export const cancelCourseAction = (courseInfor) => {
-    return async (dispatch) => {
-        try {
-            let result = await courseService.cancelCourse(courseInfor);
-            if (result.status === 200) {
-                Swal.fire({
-                    title: 'Hủy ghi danh thành công!',
-                    icon: 'success',
-                    confirmButtonColor: '#44c020'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        dispatch({
-                            type: CANCEL_REGISTER_COURSE,
-                            cancelCourse: result.data,
-                            isLoading: false
-                        });
-                        dispatch(getDetailUserAction(courseInfor.taikhoan));
-                    }
-                })
-            }
-        } catch (errors) {
-            console.log('lỗi', errors);
-            Swal.fire({
-                title: 'Hủy ghi danh thất bại!',
-                text: `${errors.response?.data}`,
-                icon: 'error',
-            })
-        }
-    }
-}
-export const getKeyWordAction = (keyword) => {
+const actCourseRequest = () => {
     return {
-        type: GET_KEYWORD,
-        payload: keyword,
+        type: COURSE_REQUEST,
+    };
+};
+const actCourseDetailSuccess = (data) => {
+    return {
+        type: COURSE_DETAIL_SUCCESS,
+        payload: data,
+    };
+};
+const actCourseFailed = (error) => {
+    return {
+        type: COURSE_FAILED,
+        payload: error,
+    };
+};
+
+// action register course
+export const actRegisterCourse = (courseInfo) => {
+    return (dispatch) => {
+        dispatch(actRegisterCourseRequest());
+        https
+            .post(`QuanLyKhoaHoc/DangKyKhoaHoc`, courseInfo)
+            .then((result) => {
+                dispatch(actRegisterCourseSuccess(result.data));
+                console.log(result.data);
+            })
+            .catch((error) => {
+                dispatch(actRegisterCourseFailed(error));
+                console.log(error);
+            });
+    };
+};
+
+const actRegisterCourseRequest = () => {
+    return {
+        type: REGISTER_COURSE_REQUEST,
+    };
+};
+const actRegisterCourseSuccess = (data) => {
+    return {
+        type: REGISTER_COURSE_SUCCESS,
+        payload: data,
+    };
+};
+const actRegisterCourseFailed = (error) => {
+    return {
+        type: REGISTER_COURSE_FAILED,
+        payload: error,
+    };
+};
+// action register course
+export const actAdminRegisterCourse = (courseInfo) => {
+    return (dispatch) => {
+        dispatch(actAdminRegisterCourseRequest());
+        https
+            .post("QuanLyKhoaHoc/GhiDanhKhoaHoc", courseInfo)
+            .then((result) => {
+                dispatch(actAdminRegisterCourseSuccess(result.data));
+                alert('Xác nhận thành công!')
+            })
+            .catch((error) => {
+                dispatch(actAdminRegisterCourseFailed(error));
+                console.log(error);
+            });
+    };
+};
+const actAdminRegisterCourseRequest = () => {
+    return {
+        type: ADMIN_REGISTER_COURSE_REQUEST,
+    };
+};
+const actAdminRegisterCourseSuccess = (data) => {
+    return {
+        type: ADMIN_REGISTER_COURSE_SUCCESS,
+        payload: data,
+    };
+};
+const actAdminRegisterCourseFailed = (error) => {
+    return {
+        type: ADMIN_REGISTER_COURSE_FAILED,
+        payload: error,
+    };
+};
+export const actGetCodeCourse = (courseCode) => {
+    return {
+        type: GET_CODECOURSE,
+        payload: courseCode,
     };
 };

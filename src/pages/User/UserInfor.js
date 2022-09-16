@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import { updateUserAction } from "../../redux/actions/UserAction";
+import { actUpdateProfile } from "../../redux/actions/UserAction";
 
 
 export default function UserInfor(props) {
@@ -39,7 +39,7 @@ export default function UserInfor(props) {
   };
   const dispatch = useDispatch();
   const handleUpdate = (user) => {
-    dispatch(updateUserAction(user));
+    dispatch(actUpdateProfile(user));
   };
 
 

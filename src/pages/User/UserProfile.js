@@ -10,7 +10,8 @@ import Grid from "@mui/material/Grid";
 
 import UserInfor from "./UserInfor";
 import UserCourse from "./UserCourse";
-import { getDetailUserAction } from "../../redux/actions/UserAction";
+
+import { actUserProfile } from "../../redux/actions/UserAction";
 import { makeStyles } from "@mui/styles";
 
 
@@ -42,25 +43,7 @@ function a11yProps(index) {
     "aria-controls": `vertical-tabpanel-${index}`,
   };
 }
-const userProfileStyle = makeStyles(()=>({
-    content: {
-        marginBottom: 100,
-    },
-    title:{
-        textAlign: 'center',
-        "& h2":{
-            fontSize: 35,
-            marginBottom: 5,
-        },
-        '& p':{
-            fontSize: 22,
-        }
-    },
-    button:{
-        fontSize: 1,
-        padding: 10,
-    }
-}))
+
 
 function UserProfile(props) {
   const { id } = props.match.params;
@@ -68,70 +51,92 @@ function UserProfile(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const userProfileStyle = makeStyles(() => ({
+    content: {
+      marginBottom: 100,
+    },
+    title: {
+      textAlign: 'center',
+      "& h2": {
+        fontSize: 35,
+        marginBottom: 5,
+      },
+      '& p': {
+        fontSize: 22,
+      }
+    },
+    button: {
+      fontSize: 1,
+      padding: 10,
+    }
+  }))
 
   const classes = userProfileStyle();
+
+
+
 
   const dispatch = useDispatch();
   useEffect(() => {
     const accountUser = {
       taiKhoan: JSON.parse(localStorage.getItem("HV")).taiKhoan,
     }
-    dispatch(getDetailUserAction((accountUser)));
-  },[]);
-  const user = useSelector(state=>state.UserReducer.userDetail);
+    dispatch(actUserProfile((accountUser)));
+  }, []);
+  const user = useSelector(state => state.UserReducer.userDetail);
 
   return !localStorage.getItem("HV") ? (
     <Redirect to="/" />
   ) : (
     <>
-      <div className="content">
-        <div className="title">
+      <div className={classes.content}>
+        <div className={classes.title}>
           <h2>{user && user.hoTen}</h2>
         </div>
-      <Box
-        sx={{
-          flexGrow: 1,
-          bgcolor: "background.paper",
-          display: "flex",
-          justifyContent: "center",
-          height: '100%',
-          mt: 3,
-        }}
-      >
-        <Grid container direction="row" justifyContent="space-around">
-          <Grid item xs={12} md={3}>
-            <Tabs
-              orientation="vertical"
-              variant="scrollable"
-              value={value}
-              onChange={handleChange}
-              aria-label="Vertical tabs example"
-              sx={{ borderRight: 1, borderColor: "divider" }}
-            >
-              <Tab
-                sx={{ margin: "auto" }}
-                label="Thông tin cá nhân"
-                {...a11yProps(0)}
-              />
-              <Tab
-                sx={{ margin: "auto" }}
-                label="Khóa học của tôi"
-                {...a11yProps(1)}
-              />
-            </Tabs>
+        <Box
+          sx={{
+            flexGrow: 1,
+            bgcolor: "background.paper",
+            display: "flex",
+            justifyContent: "center",
+            height: '100%',
+            mt: 3,
+          }}
+        >
+          <Grid container direction="row" justifyContent="space-around">
+            <Grid item xs={12} md={3}>
+              <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={value}
+                onChange={handleChange}
+                aria-label="Vertical tabs example"
+                sx={{ borderRight: 1, borderColor: "divider" }}
+              >
+                <Tab
+                  sx={{ margin: "auto" }}
+                  label="Thông tin cá nhân"
+                  {...a11yProps(0)}
+                />
+                <Tab
+                  sx={{ margin: "auto" }}
+                  label="Khóa học của tôi"
+                  {...a11yProps(1)}
+                />
+              </Tabs>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <TabPanel value={value} index={0}>
+                <UserInfor user={user} />
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+
+                <UserCourse user={user} />
+              </TabPanel>
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={8}>
-            <TabPanel value={value} index={0}>
-              <UserInfor user={user} />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-            
-              <UserCourse user={user} />
-            </TabPanel>
-          </Grid>
-        </Grid>
-      </Box>
-    </div>
+        </Box>
+      </div>
     </>
   );
 }

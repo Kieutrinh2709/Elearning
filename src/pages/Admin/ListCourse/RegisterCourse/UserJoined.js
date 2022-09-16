@@ -11,10 +11,10 @@ import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { ThemeProvider } from '@mui/material/styles';
-import { Button, createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
-import { cancelCourseAction } from '../../../../redux/actions/CourseAction';
-
+import { actCancelCourse } from '../../../../redux/actions/UserAction';
+import { Button } from '@mui/material';
 
 const theme = createTheme({
     components: {
@@ -57,6 +57,7 @@ const registerStyle = makeStyles({
     },
   
 });
+export { theme, registerStyle };
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -126,7 +127,7 @@ export default function UserJoined(props) {
                     maKhoaHoc: courseKey,
                     taiKhoan: row.account,
                   };
-                  dispatch(cancelCourseAction(courseInfo));
+                  dispatch(actCancelCourse(courseInfo));
                 }}>
                   Hủy ghi danh
                 </Button>

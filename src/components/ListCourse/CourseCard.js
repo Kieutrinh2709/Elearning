@@ -4,13 +4,9 @@ import {
   CardContent,
   CardActions,
   Typography,
-  Box,
-  Rating,
   Link,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import React, { Fragment } from "react";
 
 export default function CourseCard(props) {
@@ -90,7 +86,7 @@ export default function CourseCard(props) {
          
           <Link
             component={RouterLink}
-            to={`/course/${courseInfo.maKhoaHoc}`}
+            to={`/course-detail/${courseInfo.maKhoaHoc}`}
             sx={styles.cardTitle}
           >
             {courseInfo.tenKhoaHoc}

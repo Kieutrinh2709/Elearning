@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loginAction } from '../../redux/actions/UserAction';
+import { actLogin, loginAction } from '../../redux/actions/UserAction';
 import { TYPE_USER, USER_LOGIN } from '../../util/setting';
 import { Fragment } from 'react';
 import { Alert } from '@mui/material';
@@ -25,7 +25,7 @@ export default function Login() {
         }),
         onSubmit: values => {
             //Hàm này gọi sẽ trả về async function
-            const action = loginAction(values);
+            const action = actLogin(values);
             dispatch(action);
         },
     });

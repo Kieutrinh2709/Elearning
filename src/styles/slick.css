@@ -1,0 +1,17 @@
+.line-indicator li{
+    height: 10px;
+    width: 15px;
+    background-color: lightgray;
+    border-radius: 20px;
+    transition: all .2s ease-in-out;
+}
+.line-indicator li:hover{
+    background-color:#3f3a64;
+}
+.line-indicator li.slick-active{
+    background-color:#3f3a64;
+    width: 35px;
+}
+.slick-slider {
+    width: auto;
+}

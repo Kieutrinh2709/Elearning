@@ -2,7 +2,6 @@
   "name": "projectelearning",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Kieutrinh2709.github.io/Elearning/",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -17,7 +16,6 @@
     "date-fns": "^2.23.0",
     "dayjs": "^1.11.5",
     "formik": "^2.2.9",
-    "gh-pages": "^4.0.0",
     "history": "^4.10.1",
     "material-ui": "^0.20.2",
     "react": "^17.0.2",
@@ -37,8 +35,6 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "predeploy": "npm run build", 
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

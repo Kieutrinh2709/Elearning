@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import "antd/dist/antd.css";
+// import "antd/dist/antd.css";
 
 // import "slick-carousel/slick/slick.css"; 
 import {Provider} from 'react-redux';
